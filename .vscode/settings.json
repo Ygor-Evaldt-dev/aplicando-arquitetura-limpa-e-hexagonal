@@ -1,0 +1,13 @@
+{
+    "code-runner.executorMap": {
+        "javascript": "node",
+        "typescript": "npx ts-node",
+    },
+    "material-icon-theme.folders.associations": {
+        "external": "connection",
+        "core": "rules",
+        "ports": "circleci",
+        "port": "circleci",
+        "user": "admin"
+    }
+}
