@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,8 +8,18 @@ datasource db {
 }
 
 model Usuario {
-  id    String @id @db.Uuid
-  nome  String
-  email String
-  senha String
+  id             String          @id @db.Uuid
+  nome           String
+  email          String
+  senha          String
+  transferencias Transferencia[]
+}
+
+model Transferencia {
+  id         String   @id @db.Uuid
+  valor      Float
+  vencimento DateTime
+  descricao  String
+  usuario_id String   @db.Uuid
+  usuario    Usuario  @relation(fields: [usuario_id], references: [id])
 }

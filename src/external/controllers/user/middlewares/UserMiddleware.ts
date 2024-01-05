@@ -10,33 +10,29 @@ export default class UserMiddleware {
         tokenProvider: ITokenProvider
     ) {
         return async (req: Request, res: Response, next: NextFunction) => {
-            const token = req.headers.authorization?.replace("Bearer", "");
-
+            const token = req.headers.authorization;
             try {
                 if (!token) {
-                    this.unauthorized(res, "NÃO VEIO TOKEN");
+                    this.unauthorized(res);
                     return;
                 }
 
-                res.status(200).json(token);
-                const userToken = tokenProvider.validate(token) as User;
-
-                const user = repository.findByEmail(userToken.email.complete);
-
+                const userToken = tokenProvider.validate(token.split(" ")[1]) as User;
+                const user = await repository.findByEmail(userToken.email.complete);
                 if (!user) {
-                    this.unauthorized(res, "NÃO ENCONTROU USUARIO");
+                    this.unauthorized(res);
                     return;
                 }
 
                 (req as any).user = user;
                 next();
             } catch (error) {
-                this.unauthorized(res, "Caiu no bloco catch");
+                this.unauthorized(res);
             }
         }
     }
 
-    private static unauthorized(res: Response, message?: string): void {
-        res.status(403).send(`Não autorizado ${message || ""}`);
+    private static unauthorized(res: Response): void {
+        res.status(403).send(`Não autorizado`);
     }
 }

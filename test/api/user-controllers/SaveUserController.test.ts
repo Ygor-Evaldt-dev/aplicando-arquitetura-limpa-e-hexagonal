@@ -1,15 +1,15 @@
 import axios from "axios";
 import UserProps from "../../../src/core/user/model/UserProps";
-const api = axios.create({
-    baseURL: process.env.API_BASE_URL
-});
 
 describe("SaveUserController", function () {
+    const api = axios.create({
+        baseURL: process.env.API_BASE_URL
+    });
     test('should save user if user email no existis', async function () {
         const props: UserProps = {
-            name: "Perdigueiro",
-            email: "perdigueiro@gmail.com",
-            password: "123456"
+            name: "Usuario Teste",
+            email: "usuarioteste@gmail.com",
+            password: "12345678"
         }
         try {
             const response = await api.post("/user/save", props);
