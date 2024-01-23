@@ -11,8 +11,6 @@ export default class TransactionMonthlyStatement implements IUseCase<input, Prom
 
     async execute(props: input): Promise<output> {
         const transactions = await this.repository.findByDueDate(props);
-        // if (!transactions[0]) throw new Error("Tranferências não encontradas");
-
         return ({
             transactions,
             statement: new TransactionBalance(transactions).statement
